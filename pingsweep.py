@@ -23,5 +23,5 @@ for ip in range:
     elif result.returncode == 1:
         output = "NA"
     else:
-        output = "ERROR"       
+        output = "ERROR"
     print(ip, output)
