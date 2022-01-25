@@ -1,0 +1,57 @@
+<!doctype html>
+<!https://github.com/jackspirou/clientjs>
+<html>
+    <head>
+        <title>Fingerprint test</title>
+    </head>
+    <body>
+        <h1>Fingerprint</h1>
+        <p>Your browser fingerprint: <strong id="fp"></strong>
+        </p>
+        <p>
+            <code id="time"/>
+        </p>
+        <p>
+            <span id="details"/>
+        </p>
+        <script src="client.min.js"></script>
+        <script>
+            var client = new ClientJS();
+            var profile = {
+                "fingerprint": client.getFingerprint(),
+                "browser": client.getBrowser(),
+                "browserVersion": client.getBrowserVersion(),
+                "os": client.getOS(),
+                "osVersion": client.getOSVersion(),
+                "device": client.getDevice(),
+                "deviceType": client.getDeviceType(),
+                "deviceVendor": client.getDeviceVendor(),
+                "cpu": client.getCPU(),
+                "mobile": client.isMobile(),
+                "plugins": client.getPlugins(),
+                "flashVersion": client.getFlashVersion(),
+                "localStorageAvailable": client.isLocalStorage(),
+                "sessionStorageAvailable": client.isSessionStorage(),
+                "cookiesAvailable": client.isCookie(),
+                "timezone": client.getTimeZone(),
+                "language": client.getLanguage()
+            }
+            // Render table to display details
+            tbl = document.createElement('table');
+            tbl.style.border = '1px solid black';
+            for (var [key,value] of Object.entries(profile)){
+                const tr = tbl.insertRow();
+                const tdkey = tr.insertCell();
+                tdkey.appendChild(document.createTextNode(key));
+                const tdvalue = tr.insertCell();
+                tdvalue.appendChild(document.createTextNode(value));
+            }
+            document.getElementById('details').innerHTML = tbl.outerHTML
+            // Send details to backend
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("POST", "/fp/js.php");
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.send(JSON.stringify(profile));
+        </script>
+    </body>
+</html>
