@@ -1,8 +1,6 @@
 /*
-ASX to MP3 Converter SOF - Ivan Ivanovic Ivanov Иван-дурак
-недействительный 31337 Team
-holahola ~ https://www.exploit-db.com/exploits/38382/
-Winblows 2k3
+Modified from https://www.exploit-db.com/exploits/38382/
+Work for ASXtoMP3Convert 1.82.50 on Windows 10
 */
 
 #include <stdio.h>
