@@ -6,7 +6,7 @@
 #
 # Derived from: https://github.com/timip/exploit/blob/master/timeclock.py 
 # Tried to increase out of the box reliability for script
-# 
+# Also added user enumeration
 
 
 import requests, string, sys
